@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('link_repo');
             $table->string('featured_image')->nullable();
             $table->text('description')->nullable();
-            $table->boolean('publish')->nullable()->default(true);
+            $table->boolean('published')->nullable()->default(true);
 
             $table->timestamps();
         });
