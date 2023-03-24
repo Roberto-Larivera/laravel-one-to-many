@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+// Controllers
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\Admin\ProjectController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +23,9 @@ Route::name('guest.')->group(function (){
 
     Route::get('/', [GuestController::class, 'index'])->name('home');
     Route::get('/projects', [GuestController::class, 'projects'])->name('projects');
-    Route::get('/test', function(){return view('admin.projects.mail.newproject');})->name('test');
+
+    // Test per template Views
+    Route::get('/test', function(){return view('welcome');})->name('test');
 });
 
 // Route::get('/', function () {
@@ -30,6 +35,7 @@ Route::name('guest.')->group(function (){
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function (){
     Route::get('/dashboard', [PageController::class, 'dashboard'] )->name('dashboard');
     Route::resource('projects', ProjectController::class);
+    Route::resource('types', TypeController::class);
 });
 
 

@@ -1,9 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+
+use App\Http\Controllers\Controller;
+
+// Requests
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+
+// Models
 use App\Models\Type;
 
 class TypeController extends Controller
