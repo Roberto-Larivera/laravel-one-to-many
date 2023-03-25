@@ -12,10 +12,15 @@ class Project extends Model
     protected $fillable = [
         'title',
         'slug',
+        'type_id',
         'name_repo',
         'link_repo',
         'featured_image',
         'description',
         'publish'
     ];
+
+    public function type(){
+        return $this->belongsTo(Type::class);
+    }
 }

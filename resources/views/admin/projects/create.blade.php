@@ -67,6 +67,23 @@
                         @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="type_id" class="form-label  @error('type_id') text-danger @enderror">Tipologia</label>
+                        <select class="form-select" aria-label="Default select example" name="type_id">
+                            <option value="">Nessuna Tipologia</option>
+                            @foreach ($types as $type)
+                                
+                            <option value="{{  $type->id }}" {{ old('type_id') == $type->id ? 'selected':'' }}>{{  $type->name }}</option>
+                            @endforeach
+                          </select>
+                          
+                        {{-- <input type="text" class="form-control @error('type_id') is-invalid @enderror" id="type_id"
+                            name="type_id" placeholder="https://github.com/Example-link/name-repo" maxlength="255"
+                            value="{{ old('type_id') }}" required>
+                        @error('type_id')
+                            <p class="text-danger fw-bold">{{ $message }}</p>
+                        @enderror --}}
+                    </div>
+                    <div class="mb-3">
                         <label for="featured_image"
                             class="form-label  @error('featured_image') text-danger @enderror">Featured Image</label>
                         <input type="file" class="form-control @error('featured_image') is-invalid @enderror"

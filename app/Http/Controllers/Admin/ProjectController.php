@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProjectRequest;
 
 // Models
 use App\Models\Project;
+use App\Models\Type;
 
 // Helpers
 use Illuminate\Support\Str;
@@ -63,7 +64,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::all();
+        return view('admin.projects.create',compact('types'));
     }
 
 
@@ -114,7 +116,8 @@ class ProjectController extends Controller
 
         $newProject = Project::create($data);
 
-        Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
+        // Email
+        //Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
         return redirect()->route('admin.projects.show', $newProject)->with('success', 'Progetto creato con successo');
     }
 

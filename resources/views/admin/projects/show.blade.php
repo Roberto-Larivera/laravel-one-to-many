@@ -37,10 +37,11 @@
                             <div class="card-body h-100">
                                 <h5 class="card-title">Titolo: {{ $project->title }}</h5>
                                 <p class="card-text">Slug: {{ $project->slug }}</p>
+                                <p class="card-text">Tipo: {{ $project->type->name ?? 'Nessuna tipologia' }}</p>
                                 <p class="card-text">Nome Repo: {{ $project->name_repo }}</p>
                                 <p class="card-text">Link Repo: {{ $project->link_repo }}</p>
                                 <p class="card-text">Descrizione: {!! nl2br($project->description)!!}</p>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </div>

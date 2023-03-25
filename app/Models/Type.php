@@ -14,4 +14,8 @@ class Type extends Model
         'slug'
     ];
 
+    public function projects(){
+        return $this->hasMany(Project::class);
+    }
+
 }
