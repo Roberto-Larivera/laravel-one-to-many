@@ -10,21 +10,21 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 // Models
-use App\Models\Project;
+use App\Models\Type;
 
-class NewProject extends Mailable
+class NewType extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $project;
+    public $type;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Project $_project)
+    public function __construct(Type $_type)
     {
-        $this-> project = $_project;
+        $this->type = $_type;
     }
 
     /**
@@ -35,7 +35,7 @@ class NewProject extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'New Project',
+            subject: 'New Type',
         );
     }
 
@@ -47,7 +47,7 @@ class NewProject extends Mailable
     public function content()
     {
         return new Content(
-            view: 'admin.mail.newProject',
+            view: 'admin.mail.newType',
         );
     }
 
