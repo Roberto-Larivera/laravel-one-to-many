@@ -21,10 +21,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" class="text-info">n°</th>
+                            <th scope="col" class="text-info">N°</th>
                             <th scope="col">ID</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Name Repo</th>
+                            <th scope="col">Titolo</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Nome Repo</th>
                             <th scope="col">Azioni</th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                                 <th scope="row" class="text-info">{{ $index + 1 }}</th>
                                 <td>{{ $project->id }}</td>
                                 <td>{{ $project->title }}</td>
+                                <td>{{ $project->type->name?? 'Nessuna Tipologia' }}</td>
                                 <td>{{ $project->name_repo }}</td>
                                 <td>
                                     <a href="{{ route('admin.projects.show', $project->id) }}"
