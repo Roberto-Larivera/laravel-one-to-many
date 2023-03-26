@@ -13,19 +13,47 @@
                     <i class="fa-solid fa-plus"></i>
                 </a>
             </div>
-            
+
         </div>
         <div class="row mb-5">
-            <div class="col-auto">
+            <div class="col">
                 <form action="{{ route('admin.projects.index') }}" method="get">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">
-                            <button type="submit" class="btn">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </span>
-                        <input type="search" class="form-control" name="text" value="{{ request('text') }}" placeholder="Cerca: Progetto...">
-                      </div>
+                    <div class="row">
+                        <div class="col-auto d-flex ">
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <button type="submit" class="btn">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </span>
+                                <input type="search" class="form-control" name="text" value="{{ request('text') }}"
+                                    placeholder="Cerca: Progetto...">
+                            </div>
+                        </div>
+                        @if (count($types) > 0)
+                            <div class="col-auto d-flex ">
+    
+                                <div class="input-group">
+                                    <label for="type_id"
+                                        class="input-group-text bg-light  @error('type_id') text-danger @enderror">Tipologia</label>
+                                    <select class="form-select @error('type_id') is-invalid @enderror" name="type_id">
+                                        <option value="">Nessuna Tipologia</option>
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}"
+                                                {{ request('type_id') == $type->id ? 'selected' : '' }}>
+                                                {{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('type_id')
+                                        <p class="text-danger fw-bold">{{ $message }}</p>
+                                    @enderror
+                                </div>
+    
+                            </div>
+                        @endif
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -51,7 +79,7 @@
                                 <th scope="row" class="text-info">{{ $index + 1 }}</th>
                                 <td>{{ $project->id }}</td>
                                 <td>{{ $project->title }}</td>
-                                <td>{{ $project->type->name?? 'Nessuna Tipologia' }}</td>
+                                <td>{{ $project->type->name ?? 'Nessuna Tipologia' }}</td>
                                 <td>{{ $project->name_repo }}</td>
                                 <td>
                                     <a href="{{ route('admin.projects.show', $project->id) }}"

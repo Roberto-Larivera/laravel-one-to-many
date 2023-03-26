@@ -40,18 +40,29 @@ class ProjectController extends Controller
     public function index()
     {
         $textSearch = request()->input('text');
+        $typeSearch = request()->input('type_id');
+        $types = Type::all();
 
-        if(isset($textSearch)){
-            $projects = Project::where('title','like','%'.$textSearch.'%')->get();
-
-        }else{
+        if (isset($textSearch) && !isset($typeSearch))
+            $projects = Project::where('title', 'like', '%' . $textSearch . '%')->get();
+        elseif (!isset($textSearch) && isset($typeSearch))
+            $projects = Project::where('type_id', '=', $typeSearch)->get();
+        elseif (isset($textSearch) && isset($typeSearch))
+            $projects = Project::where([
+                ['title', 'like', '%' . $textSearch . '%'],
+                ['type_id', 'like', '%' . $typeSearch . '%']
+            ])->get();
+        else
             $projects = Project::all();
 
-        }
+        
+        if (count($projects) == 0)
+            // non va bene redirect perchè ci troviamo in index
+            // return redirect()->route('admin.projects.index', compact('projects', 'types'))->with('warning', 'Non ci sono stati risultati');
+            return view('admin.projects.index', compact('projects', 'types'))->with('warning', 'Non ci sono stati risultati');
+        else
+            return view('admin.projects.index', compact('projects', 'types'));
         // metodo 1
-        return view('admin.projects.index', [
-            'projects' => $projects
-        ]);
         // metodo 2
         //return view('admin.projects.index',compact('projects'));
     }
@@ -73,7 +84,7 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create',compact('types'));
+        return view('admin.projects.create', compact('types'));
     }
 
 
@@ -125,7 +136,7 @@ class ProjectController extends Controller
         $newProject = Project::create($data);
 
         // Email
-        Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
+        Mail::to('prova-ricevere@esempio.it')->send(new NewProject($newProject));
         return redirect()->route('admin.projects.show', $newProject)->with('success', 'Progetto aggiunto con successo');
     }
 
@@ -197,21 +208,21 @@ class ProjectController extends Controller
 
         $data = $request->validated();
 
-        if(array_key_exists('delete_featured_image', $data) || array_key_exists('featured_image', $data) ){
+        if (array_key_exists('delete_featured_image', $data) || array_key_exists('featured_image', $data)) {
             $featuredDeleteImage = true;
         }
 
-        if(!array_key_exists('type_id', $data)) 
-        $data['type_id'] = null;
+        if (!array_key_exists('type_id', $data))
+            $data['type_id'] = null;
 
-        
+
         if (
             $titleOld ==  $data['title'] &&
             $type_idOld  ==  $data['type_id'] &&
             $name_repoOld ==  $data['name_repo'] &&
             $link_repoOld ==  $data['link_repo'] &&
             $descriptionOld ==  $data['description'] &&
-            $featuredDeleteImage == false 
+            $featuredDeleteImage == false
         ) {
             return redirect()->route('admin.projects.edit', $project->id)->with('warning', 'Non hai modificato nessun dato');
         } else {
@@ -235,11 +246,10 @@ class ProjectController extends Controller
                     $counter++;
                     $existSlug = Project::where('slug', $data['slug'])->first();
                 }
-                
             }
 
             // controllo se esiste la key img -- 2 controllo 
-            if(array_key_exists('delete_featured_image', $data)){
+            if (array_key_exists('delete_featured_image', $data)) {
                 if ($featured_imageOld) {
                     // Controllo se ce un immagine vecchia è la cancello
                     Storage::delete($featured_imageOld);
@@ -247,15 +257,15 @@ class ProjectController extends Controller
                     $project->featured_image = null;
                     $project->save();
                 }
-            }else if (array_key_exists('featured_image', $data)) {
-                    $imgPath = Storage::put('projects', $data['featured_image']);
-                    $data['featured_image'] = $imgPath;
-                    if ($featured_imageOld) {
-                        // Controllo se ce un immagine vecchia è la cancello
-                        Storage::delete($featured_imageOld);
-                    }
+            } else if (array_key_exists('featured_image', $data)) {
+                $imgPath = Storage::put('projects', $data['featured_image']);
+                $data['featured_image'] = $imgPath;
+                if ($featured_imageOld) {
+                    // Controllo se ce un immagine vecchia è la cancello
+                    Storage::delete($featured_imageOld);
                 }
-            
+            }
+
 
             $project->update($data);
             return redirect()->route('admin.projects.show', $project)->with('success', 'Progetto aggiornato con successo');
