@@ -29,7 +29,22 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::all();
+        $textSearch = request()->input('text');
+        $quantitySearch = request()->input('quantity');
+
+        if(isset($quantitySearch) <= 0)
+            $quantitySearch = null;
+
+        if (isset($textSearch) && !isset($quantitySearch))
+            $types = Type::where('name', 'like', '%' . $textSearch . '%')->get();
+        elseif (!isset($textSearch) && isset($quantitySearch))
+            $types = Type::has('projects','>=',$quantitySearch)->get();
+            elseif (isset($textSearch) && isset($quantitySearch))
+            $types = Type::where('name', 'like', '%' . $textSearch . '%')->has('projects','>=',$quantitySearch)->get();
+        else
+            $types = Type::all();
+
+        
         return view('admin.types.index', compact('types'));
     }
 
