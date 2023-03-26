@@ -24,7 +24,7 @@
         <div id="app">
 
 
-            <header>
+            <header class=" position-sticky top-0" style="z-index:5;">
                 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                     <div class="container">
                         <a class="navbar-brand d-flex align-items-center" href="{{route('guest.home') }}">

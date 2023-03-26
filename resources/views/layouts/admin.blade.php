@@ -29,27 +29,41 @@
 
     <div id="app">
 
-        <header id="admin_header" class="navbar navbar-dark bg-black  flex-md-nowrap ps-5 pe-5 shadow ">
-            <a class="navbar-brand  col-md-3 col-lg-2 me-0 px-3" href="/">Boolfolio</a>
-            <div class="navbar-nav">
-                <div class="nav-item text-nowrap ms-2">
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
+        <header id="admin_header" class="navbar navbar-dark bg-black shadow ">
+            <div class="container-fluid ms-5 me-5">
+                <div class="row row-cols-3 row-cols-md-2 w-100 justify-content-between">
+                    <div class="col h-100 d-md-none">
+                        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col h-100 d-flex">
+                        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Boolfolio</a>
+                    </div>
+                    <div class="col h-100 d-flex justify-content-end pe-5">
+                        <div class="navbar-nav">
+                            <div class="nav-item ms-2 position-relative ">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle m-0" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ Auth::user()->name }}
+                                </a>
 
-                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('profile') }}">{{__('Profile')}}</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
+                                <div class="dropdown-menu dropdown-menu-right position-absolute end-0 start-0" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{__('Dashboard')}}</a>
+                                    <a class="dropdown-item" href="{{ url('profile') }}">{{__('Profile')}}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </li>
+                    </div>
                 </div>
             </div>
         </header>
@@ -58,7 +72,7 @@
             <div class="container-fluid h-100">
                 <div class="row h-100">
                     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-black navbar-dark sidebar collapse">
-                        <div class="position-sticky pt-3">
+                        <div class="position-sticky top-0 pt-3">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}"
@@ -84,18 +98,39 @@
                                     </a>
                                 </li>
                             </ul>
-                            
-    
-    
+                            <h6 class="text-white mt-4 mb-2">
+                                Gestione Profilo
+                            </h6>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white {{ Route::currentRouteName() == 'profile' ? 'bg-secondary' : '' }}"
+                                        href="{{ url('profile') }}">{{ __('Profile') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+
+
                         </div>
                     </nav>
-    
+
                     <main class="col-md-9 ms-sm-auto bg-light col-lg-10 px-md-4 h-100">
                         @yield('content')
                     </main>
                 </div>
             </div>
-    
+
         </div>
     </div>
     @yield('body_js')

@@ -9,10 +9,10 @@
                 </h1>
             </div>
         </div>
-        <div class="row g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 gy-4 gx-4">
             @foreach ($projects as $project)
                 <div class="col">
-                    <div class="card h-100" style="width: 18rem;">
+                    <div class="card h-100">
                         @if (isset($project->featured_image))
                         <img src="{{ asset('storage/'.$project->featured_image) }}" class="card-img-top" alt="...">
                         @endif
