@@ -21,10 +21,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" class="text-info">N°</th>
+                            <th scope="col" class="text-info">#</th>
                             <th scope="col">ID</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">?</th>
+                            <th scope="col"># Progetti</th>
                             <th scope="col">Azioni</th>
                         </tr>
                     </thead>
@@ -34,7 +34,7 @@
                                 <th scope="row" class="text-info">{{ $index + 1 }}</th>
                                 <td>{{ $type->id }}</td>
                                 <td>{{ $type->name }}</td>
-                                <td>?</td>
+                                <td>{{ $type->projects()->count() }}</td>
                                 <td>
                                     <a href="{{ route('admin.types.show', $type->id) }}"
                                         class="btn btn-outline-primary">
