@@ -2,7 +2,8 @@
 @section('head-title', 'Projects | ')
 @section('content')
     <div class="container-fluid mt-4">
-        <div class="row mb-5">
+
+        <div class="row mb-4">
             <div class="col">
                 <h1>
                     Tutti i Progetti
@@ -11,6 +12,21 @@
                     Aggiungi Progetto
                     <i class="fa-solid fa-plus"></i>
                 </a>
+            </div>
+            
+        </div>
+        <div class="row mb-5">
+            <div class="col-auto">
+                <form action="{{ route('admin.projects.index') }}" method="get">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <button type="submit" class="btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </span>
+                        <input type="search" class="form-control" name="text" value="{{ request('text') }}" placeholder="Cerca: Progetto...">
+                      </div>
+                </form>
             </div>
         </div>
         @include('admin.partials.errors')

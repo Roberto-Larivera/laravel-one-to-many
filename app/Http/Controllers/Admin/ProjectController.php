@@ -39,7 +39,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $textSearch = request()->input('text');
+
+        if(isset($textSearch)){
+            $projects = Project::where('title','like','%'.$textSearch.'%')->get();
+
+        }else{
+            $projects = Project::all();
+
+        }
         // metodo 1
         return view('admin.projects.index', [
             'projects' => $projects
