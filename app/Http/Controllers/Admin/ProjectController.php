@@ -117,7 +117,7 @@ class ProjectController extends Controller
         $newProject = Project::create($data);
 
         // Email
-        //Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
+        Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
         return redirect()->route('admin.projects.show', $newProject)->with('success', 'Progetto creato con successo');
     }
 
@@ -156,7 +156,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::all();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
 
@@ -179,6 +180,7 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $titleOld =  $project->title;
+        $type_idOld =  $project->type_id;
         $name_repoOld =  $project->name_repo;
         $link_repoOld =  $project->link_repo;
         $featured_imageOld =  $project->featured_image;
@@ -191,9 +193,13 @@ class ProjectController extends Controller
             $featuredDeleteImage = true;
         }
 
+        if(!array_key_exists('type_id', $data)) 
+        $data['type_id'] = null;
+
         
         if (
             $titleOld ==  $data['title'] &&
+            $type_idOld  ==  $data['type_id'] &&
             $name_repoOld ==  $data['name_repo'] &&
             $link_repoOld ==  $data['link_repo'] &&
             $descriptionOld ==  $data['description'] &&

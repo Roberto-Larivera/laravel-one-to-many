@@ -28,6 +28,7 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'title' => 'required|max:98',
+            'type_id' => 'nullable|exists:types,id',
             'name_repo' => [
                 'required',
                 Rule::unique('projects')->ignore($this->project->id),
