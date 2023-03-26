@@ -25,96 +25,78 @@
 </head>
 
 <body>
-    <style>
-        header {
-            z-index: 10;
-        }
-    </style>
     @yield('body_css')
 
     <div id="app">
 
-        <header class="navbar navbar-dark position-sticky top-0 bg-dark flex-md-nowrap p-2 shadow">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Boolfolio</a>
-            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button"
-                data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        <header id="admin_header" class="navbar navbar-dark bg-black  flex-md-nowrap ps-5 pe-5 shadow ">
+            <a class="navbar-brand  col-md-3 col-lg-2 me-0 px-3" href="/">Boolfolio</a>
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap ms-2">
-                    <a class="nav-link" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('profile') }}">{{__('Profile')}}</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
                 </div>
             </div>
         </header>
 
-        <div class="container-fluid vh-100">
-            {{-- <div class="container-fluid"> --}}
-            <div class="row h-100">
-                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark navbar-dark sidebar collapse">
-                    <div class="position-sticky pt-3">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.dashboard' ? 'bg-secondary' : '' }}"
-                                    href="{{ route('admin.dashboard') }}">
-                                    <i class="fa-solid fa-tachometer-alt fa-lg fa-fw"></i> Dashboard
-                                </a>
-                            </li>
-                        </ul>
-                        <h6 class="text-white mt-4 mb-2">
-                            Gestione Progetti
-                        </h6>
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.projects.index' ? 'bg-secondary' : '' }}"
-                                    href="{{ route('admin.projects.index') }}">
-                                    <i class="fa-solid fa-folder fa-lg fa-fw"></i> Progetti
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.types.index' ? 'bg-secondary' : '' }}"
-                                    href="{{ route('admin.types.index') }}">
-                                    <i class="fa-solid fa-sitemap fa-lg fa-fw"></i> Tipologie
-                                </a>
-                            </li>
-                        </ul>
-                        <h6 class="text-white mt-4 mb-2">
-                            Gestione Profilo
-                        </h6>
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                
-                                <a class="nav-link text-white {{ Route::currentRouteName() == 'profile' ? 'bg-secondary' : '' }}"  href="{{ url('profile') }}">{{ __('Profile') }}</a>
-                                <a class="nav-link text-white" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
-
-
-                    </div>
-                </nav>
-
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    @yield('content')
-                </main>
+        <div id="admin_main">
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-black navbar-dark sidebar collapse">
+                        <div class="position-sticky pt-3">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}"
+                                        href="{{ route('admin.dashboard') }}">
+                                        <i class="fa-solid fa-tachometer-alt fa-lg fa-fw"></i> Dashboard
+                                    </a>
+                                </li>
+                            </ul>
+                            <h6 class="text-white mt-4 mb-2">
+                                Gestione Progetti
+                            </h6>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.projects.index' ? 'active' : '' }}"
+                                        href="{{ route('admin.projects.index') }}">
+                                        <i class="fa-solid fa-folder fa-lg fa-fw"></i> Progetti
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.types.index' ? 'active' : '' }}"
+                                        href="{{ route('admin.types.index') }}">
+                                        <i class="fa-solid fa-sitemap fa-lg fa-fw"></i> Tipologie
+                                    </a>
+                                </li>
+                            </ul>
+                            
+    
+    
+                        </div>
+                    </nav>
+    
+                    <main class="col-md-9 ms-sm-auto bg-light col-lg-10 px-md-4 h-100">
+                        @yield('content')
+                    </main>
+                </div>
             </div>
+    
         </div>
-
     </div>
     @yield('body_js')
     {{-- <script>
