@@ -118,7 +118,7 @@ class ProjectController extends Controller
 
         // Email
         Mail::to('prova-ricevere@esempio.it')->send(new NewProject ($newProject));
-        return redirect()->route('admin.projects.show', $newProject)->with('success', 'Progetto creato con successo');
+        return redirect()->route('admin.projects.show', $newProject)->with('success', 'Progetto aggiunto con successo');
     }
 
 

@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 
+// Helpers
+use Illuminate\Support\Str;
+
 // Models
 use App\Models\Type;
 
@@ -32,7 +35,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.types.create');
     }
 
     /**
@@ -43,7 +46,27 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::slug($data['name']);
+        
+        // Validazione slug
+        $existSlug = Type::where('slug', $data['slug'])->first();
+
+        $counter = 1;
+        $dataSlug = $data['slug'];
+
+        // questa funzione controlla se lo slag esiste già nel database, e in caso esista con questo ciclo while li viene inserito un numero di continuazione 
+        while ($existSlug) {
+            if (strlen($data['slug']) >= 95) {
+                substr($data['slug'], 0, strlen($data['slug']) - 3);
+            }
+            $data['slug'] = $dataSlug . '-' . $counter;
+            $counter++;
+            $existSlug = Type::where('slug', $data['slug'])->first();
+        }
+        $newType = Type::create($data);
+        return redirect()->route('admin.types.show', $newType)->with('success', 'Tipologia aggiunta con successo');
     }
 
     /**
