@@ -5,8 +5,27 @@ header#admin_header{
 
 div#admin_main{
     height: calc(100vh - 70px);
+
+    .bg-black{
+        background-color: black;
+    }
+
     nav#sidebarMenu{
-        
+        ul{
+            li{
+                a{
+                    &:hover{
+                        background-color: rgb(49, 138, 216);
+                    }
+                    &:active{
+                        background-color: rgb(64, 55, 231);
+                    }
+                    &.active{
+                        background-color: rgb(64, 55, 231);
+                    }
+                }
+            }
+        }
     }
     main{
         overflow: auto;

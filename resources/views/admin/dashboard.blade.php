@@ -1,4 +1,4 @@
-@extends('layouts.admin2')
+@extends('layouts.admin')
 @section('head-title','Dashboard  | ')
 @section('content')
 <div class="container-fluid mt-4">
