@@ -19,9 +19,9 @@
                 {{-- @include('admin.projects.partials.delete') --}}
             </div>
         </div>
-        @include('admin.projects.partials.warning')
-        @include('admin.projects.partials.success')
-        @include('admin.projects.partials.errors')
+        @include('admin.partials.errors')
+        @include('admin.partials.success')
+        @include('admin.partials.warning')
 
         <div class="row mb-4">
             <div class="col">

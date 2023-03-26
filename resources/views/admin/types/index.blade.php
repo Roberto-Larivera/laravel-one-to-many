@@ -13,9 +13,9 @@
                 </a>
             </div>
         </div>
-        @include('admin.types.partials.warning')
-        @include('admin.types.partials.success')
-        @include('admin.types.partials.errors')
+        @include('admin.partials.errors')
+        @include('admin.partials.success')
+        @include('admin.partials.warning')
         <div class="row">
             <div class="col">
                 <table class="table table-hover">

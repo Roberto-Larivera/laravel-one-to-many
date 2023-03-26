@@ -89,7 +89,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        //
+        return view('admin.types.edit',compact('type'));
     }
 
     /**
@@ -101,7 +101,34 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $nameOld = $type->name;
+
+        $data = $request->validated();
+
+        if($nameOld == $data['name']){
+            return redirect()->route('admin.types.edit', $type->id)->with('warning', 'Non hai modificato nessun dato');
+        }else{
+
+            $data['slug'] = Str::slug($data['name']);
+        
+            // Validazione slug
+            $existSlug = Type::where('slug', $data['slug'])->first();
+    
+            $counter = 1;
+            $dataSlug = $data['slug'];
+    
+            // questa funzione controlla se lo slag esiste già nel database, e in caso esista con questo ciclo while li viene inserito un numero di continuazione 
+            while ($existSlug) {
+                if (strlen($data['slug']) >= 95) {
+                    substr($data['slug'], 0, strlen($data['slug']) - 3);
+                }
+                $data['slug'] = $dataSlug . '-' . $counter;
+                $counter++;
+                $existSlug = Type::where('slug', $data['slug'])->first();
+            }
+            $type->update($data);
+            return redirect()->route('admin.types.show', $type)->with('success', 'Tipologia aggiornata con successo');
+        }
     }
 
     /**

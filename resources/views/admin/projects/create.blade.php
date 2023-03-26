@@ -16,22 +16,9 @@
                 </a>
             </div>
         </div>
-        @if ($errors->any())
-
-            <div class="row mb-5">
-                <div class="col">
-                    <div class="alert alert-danger">
-                        <ul class="m-0">
-                            @foreach ($errors->all() as $error)
-                                <li>
-                                    {{ $error }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        @endif
+        @include('admin.partials.errors')
+        @include('admin.partials.success')
+        @include('admin.partials.warning')
         <div class="row">
             <div class="col">
 
