@@ -44,7 +44,7 @@
                                         class="btn btn-outline-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    {{-- @include('admin.types.partials.delete') --}}
+                                    @include('admin.types.partials.delete')
                                 </td>
                             </tr>
                         @endforeach

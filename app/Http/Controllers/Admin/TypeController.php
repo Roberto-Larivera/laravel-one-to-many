@@ -139,6 +139,7 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete($type);
+        return redirect()->route('admin.types.index')->with('success', 'La tipologia è stata eliminata con successo');
     }
 }

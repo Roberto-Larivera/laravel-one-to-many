@@ -16,7 +16,7 @@
                 <a href="{{ route('admin.types.show', $type->id) }}" class="btn btn-outline-primary">
                     <i class="fa-solid fa-eye"></i>
                 </a>
-                {{-- @include('admin.types.partials.delete') --}}
+                @include('admin.types.partials.delete')
             </div>
         </div>
         @include('admin.partials.errors')
