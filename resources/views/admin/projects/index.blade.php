@@ -18,7 +18,7 @@
         @include('admin.projects.partials.errors')
         <div class="row">
             <div class="col">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col" class="text-info">N°</th>
