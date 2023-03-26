@@ -32,20 +32,22 @@ class TypeController extends Controller
         $textSearch = request()->input('text');
         $quantitySearch = request()->input('quantity');
 
-        if(isset($quantitySearch) <= 0)
+        if (isset($quantitySearch) <= 0)
             $quantitySearch = null;
 
         if (isset($textSearch) && !isset($quantitySearch))
             $types = Type::where('name', 'like', '%' . $textSearch . '%')->get();
         elseif (!isset($textSearch) && isset($quantitySearch))
-            $types = Type::has('projects','>=',$quantitySearch)->get();
-            elseif (isset($textSearch) && isset($quantitySearch))
-            $types = Type::where('name', 'like', '%' . $textSearch . '%')->has('projects','>=',$quantitySearch)->get();
+            $types = Type::has('projects', '>=', $quantitySearch)->get();
+        elseif (isset($textSearch) && isset($quantitySearch))
+            $types = Type::where('name', 'like', '%' . $textSearch . '%')->has('projects', '>=', $quantitySearch)->get();
         else
             $types = Type::all();
 
-        
-        return view('admin.types.index', compact('types'));
+        if (count($types) == 0)
+            return view('admin.types.index', compact('types'))->with('warning', 'Non ci sono stati risultati');
+        else
+            return view('admin.types.index', compact('types'));
     }
 
     /**
@@ -69,7 +71,7 @@ class TypeController extends Controller
         $data = $request->validated();
 
         $data['slug'] = Str::slug($data['name']);
-        
+
         // Validazione slug
         $existSlug = Type::where('slug', $data['slug'])->first();
 
@@ -100,7 +102,7 @@ class TypeController extends Controller
     public function show(Type $type)
     {
         $projects = $type->projects;
-        return view('admin.types.show', compact('type','projects'));
+        return view('admin.types.show', compact('type', 'projects'));
     }
 
     /**
@@ -111,7 +113,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        return view('admin.types.edit',compact('type'));
+        return view('admin.types.edit', compact('type'));
     }
 
     /**
@@ -127,18 +129,18 @@ class TypeController extends Controller
 
         $data = $request->validated();
 
-        if($nameOld == $data['name']){
+        if ($nameOld == $data['name']) {
             return redirect()->route('admin.types.edit', $type->id)->with('warning', 'Non hai modificato nessun dato');
-        }else{
+        } else {
 
             $data['slug'] = Str::slug($data['name']);
-        
+
             // Validazione slug
             $existSlug = Type::where('slug', $data['slug'])->first();
-    
+
             $counter = 1;
             $dataSlug = $data['slug'];
-    
+
             // questa funzione controlla se lo slag esiste già nel database, e in caso esista con questo ciclo while li viene inserito un numero di continuazione 
             while ($existSlug) {
                 if (strlen($data['slug']) >= 95) {

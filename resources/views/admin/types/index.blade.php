@@ -35,7 +35,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-light">
                                         <button type="submit" class="btn">
-                                            <i class="fa-solid fa-hashtag"></i>
+                                            1\n <i class="fa-solid fa-hashtag"></i>
                                         </button>
                                     </span>
                                     <input type="number" min="0" class="form-control" name="quantity" value="{{ request('quantity') }}"
