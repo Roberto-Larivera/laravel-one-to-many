@@ -1,0 +1,14 @@
+
+header#admin_header{
+    height: 70px;
+}
+
+div#admin_main{
+    height: calc(100vh - 70px);
+    nav#sidebarMenu{
+        
+    }
+    main{
+        overflow: auto;
+    }
+}
