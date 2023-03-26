@@ -14,6 +14,11 @@ use Illuminate\Support\Str;
 
 // Models
 use App\Models\Type;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
+// Mails
+use App\Mail\NewType;
 
 class TypeController extends Controller
 {
@@ -66,6 +71,8 @@ class TypeController extends Controller
             $existSlug = Type::where('slug', $data['slug'])->first();
         }
         $newType = Type::create($data);
+        $user = Auth::user();
+        Mail::to($user)->send(new newType($newType));
         return redirect()->route('admin.types.show', $newType)->with('success', 'Tipologia aggiunta con successo');
     }
 
