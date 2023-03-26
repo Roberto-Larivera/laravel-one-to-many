@@ -16,12 +16,16 @@
                 <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-outline-warning">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
+                @if ($project->type)
+                    <a href="{{ route('admin.types.show', $project->type->id) }}" class="btn btn-outline-primary"><i
+                            class="fa-solid fa-sitemap"></i></a>
+                @endif
                 @include('admin.projects.partials.delete')
             </div>
         </div>
-        @include('admin.projects.partials.warning')
-        @include('admin.projects.partials.success')
-        @include('admin.projects.partials.errors')
+        @include('admin.partials.errors')
+        @include('admin.partials.success')
+        @include('admin.partials.warning')
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -29,17 +33,25 @@
                         {{-- verifica se c'è l'immagine --}}
                         @if (isset($project->featured_image))
                             <div class="col-md-4">
-                                <img src="{{ asset('storage/' . $project->featured_image) }}" class="img-fluid rounded-start"
-                                    alt="...">
+                                <img src="{{ asset('storage/' . $project->featured_image) }}"
+                                    class="img-fluid rounded-start" alt="...">
                             </div>
                         @endif
                         <div class="col-md-8">
                             <div class="card-body h-100">
                                 <h5 class="card-title">Titolo: {{ $project->title }}</h5>
                                 <p class="card-text">Slug: {{ $project->slug }}</p>
+                                {{-- <p class="card-text">Tipo: {{ $project->type->name ?? 'Nessuna tipologia' }}</p> --}}
+                                @if ($project->type)
+                                    <p class="card-text">Tipo: <a href="{{ route('admin.types.show', $project->type->id) }}"
+                                            class="btn btn-outline-primary">{{ $project->type->name }} <i
+                                                class="fa-solid fa-sitemap"></i></a></p>
+                                @else
+                                    <p class="card-text">Tipo: Nessuna tipologia</p>
+                                @endif
                                 <p class="card-text">Nome Repo: {{ $project->name_repo }}</p>
                                 <p class="card-text">Link Repo: {{ $project->link_repo }}</p>
-                                <p class="card-text">Descrizione: {!! nl2br($project->description)!!}</p>
+                                <p class="card-text">Descrizione: {!! nl2br($project->description) !!}</p>
                             </div>
                         </div>
                     </div>

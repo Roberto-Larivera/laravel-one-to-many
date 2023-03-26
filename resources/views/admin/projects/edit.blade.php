@@ -19,9 +19,9 @@
                 @include('admin.projects.partials.delete')
             </div>
         </div>
-        @include('admin.projects.partials.warning')
-        @include('admin.projects.partials.success')
-        @include('admin.projects.partials.errors')
+        @include('admin.partials.errors')
+        @include('admin.partials.success')
+        @include('admin.partials.warning')
         <div class="row">
             <div class="col">
 
@@ -59,6 +59,25 @@
                             <p class="text-danger fw-bold">{{ $message }}</p>
                         @enderror
                     </div>
+                    @if (count($types) > 0)
+
+                        <div class="mb-3">
+                            <label for="type_id"
+                                class="form-label  @error('type_id') text-danger @enderror">Tipologia</label>
+                            <select class="form-select @error('type_id') is-invalid @enderror" name="type_id">
+                                <option value="">Nessuna Tipologia</option>
+                                @foreach ($types as $type)
+                                    <option value="{{ $type->id }}"
+                                        {{ old('type_id',$project->type_id) == $type->id ? 'selected' : '' }}>
+                                        {{ $type->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('type_id')
+                                <p class="text-danger fw-bold">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                    @endif
                     <div class="mb-3">
                         <label for="featured_image"
                             class="form-label  @error('featured_image') text-danger @enderror">Featured Image</label>

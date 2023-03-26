@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('types', function (Blueprint $table) {
             $table->id();
-            
-            $table->string('title',98);
+            $table->string('name',98);
             $table->string('slug',98)->unique();
-            $table->string('name_repo',98)->unique();
-            $table->string('link_repo');
-            $table->string('featured_image')->nullable();
-            $table->text('description')->nullable();
-            $table->boolean('published')->nullable()->default(true);
-
             $table->timestamps();
         });
     }
@@ -35,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('types');
     }
 };

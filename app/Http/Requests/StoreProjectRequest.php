@@ -27,6 +27,7 @@ class StoreProjectRequest extends FormRequest
         return [
 
             'title' => 'required|max:98',
+            'type_id' => 'nullable|exists:types,id',
             'name_repo' => 'required|unique:projects,name_repo|max:98',
             'link_repo' => 'required|max:255',
             'description' => 'nullable|max:4096',
